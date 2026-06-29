@@ -8,7 +8,7 @@
 
 </div>
 
-`runbook-lint` is a local-first CLI for SRE and incident-response teams. It checks whether Markdown runbooks include the facts needed during an incident: triggers, owner metadata, affected systems, access prechecks, exact commands, verification, rollback, escalation, destructive-action warnings, and AI-agent guardrails.
+`runbook-lint` is a local-first CLI for SRE and incident-response teams. It checks whether Markdown runbooks include the facts needed during an incident: triggers, owner metadata, affected systems, access prechecks, exact commands, verification, rollback, time bounds, escalation, destructive-action warnings, and AI-agent guardrails.
 
 It does not execute production commands or connect to infrastructure.
 
@@ -50,7 +50,7 @@ runbook-lint explain trigger.condition docs/runbooks
 Try fixing it. Restart things if needed.
 ```
 
-This is not executable under pressure. It lacks ownership, trigger condition, scope, access prechecks, exact commands, verification, rollback, escalation, risk labels, and agent guardrails.
+This is not executable under pressure. It lacks ownership, trigger condition, scope, access prechecks, exact commands, verification, rollback, time bounds, escalation, risk labels, and agent guardrails.
 
 ## Report Excerpt
 
@@ -61,7 +61,7 @@ This is not executable under pressure. It lacks ownership, trigger condition, sc
 
 - Files: 1
 - Errors: 6
-- Warnings: 4
+- Warnings: 5
 
 ### trigger.condition: Missing trigger condition
 
@@ -79,6 +79,7 @@ This is not executable under pressure. It lacks ownership, trigger condition, sc
 - `step.command`
 - `step.verify`
 - `rollback.path`
+- `time.bound`
 - `escalation.contact`
 - `risk.destructive`
 - `agent.guardrail`

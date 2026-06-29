@@ -32,7 +32,7 @@ export function parseRunbook(path: string, raw: string): RunbookDocument {
       headings.push(heading[2]?.trim() ?? "");
       continue;
     }
-    const list = /^[-*]\s+(.+)$/u.exec(trimmed);
+    const list = /^(?:[-*]|\d+[.)])\s+(.+)$/u.exec(trimmed);
     if (list) {
       const item = list[1]?.trim() ?? "";
       listItems.push(item);

@@ -8,6 +8,7 @@ export const builtInRules: Rule[] = [
   rule("step.command", "Missing exact action command", "error", "Include exact commands or console actions for at least one remediation step.", hasCommand),
   rule("step.verify", "Missing verification step", "error", "Include verification checks that prove recovery or mitigation worked.", hasVerify),
   rule("rollback.path", "Missing rollback path", "error", "Document rollback, undo, or mitigation steps.", hasRollback),
+  rule("time.bound", "Missing time bound", "warning", "State expected wait times, retry limits, or escalation deadlines for remediation steps.", hasTimeBound),
   rule("escalation.contact", "Missing escalation path", "warning", "Name when and where to escalate, including team, channel, or on-call path.", hasEscalation),
   rule("risk.destructive", "Missing destructive action warning", "warning", "Mark destructive or irreversible operations and require human confirmation.", hasRisk),
   rule("agent.guardrail", "Missing AI agent guardrail", "warning", "State what an AI agent must not do automatically.", hasAgentGuardrail)
@@ -73,6 +74,23 @@ function hasVerify(document: RunbookDocument): boolean {
 
 function hasRollback(document: RunbookDocument): boolean {
   return includesAny(document, ["rollback", "roll back", "undo", "mitigation", "revert"]);
+}
+
+function hasTimeBound(document: RunbookDocument): boolean {
+  return includesAny(document, [
+    "minute",
+    "minutes",
+    "second",
+    "seconds",
+    "hour",
+    "hours",
+    "timeout",
+    "deadline",
+    "retry",
+    "retries",
+    "wait",
+    "within"
+  ]);
 }
 
 function hasEscalation(document: RunbookDocument): boolean {

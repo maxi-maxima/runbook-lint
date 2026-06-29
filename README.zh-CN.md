@@ -8,7 +8,7 @@
 
 </div>
 
-`runbook-lint` 是一个本地优先 CLI，面向 SRE 和事故响应团队。它检查 Markdown runbook 是否包含事故处理中真正需要的信息：触发条件、负责人元数据、影响系统、访问前置条件、精确命令、验证步骤、回滚路径、升级联系人、破坏性操作警告和 AI agent 护栏。
+`runbook-lint` 是一个本地优先 CLI，面向 SRE 和事故响应团队。它检查 Markdown runbook 是否包含事故处理中真正需要的信息：触发条件、负责人元数据、影响系统、访问前置条件、精确命令、验证步骤、回滚路径、时间边界、升级联系人、破坏性操作警告和 AI agent 护栏。
 
 它不会执行生产命令，也不会连接真实基础设施。
 
@@ -50,7 +50,7 @@ runbook-lint explain trigger.condition docs/runbooks
 Try fixing it. Restart things if needed.
 ```
 
-这在事故压力下不可执行。它缺少负责人、触发条件、影响范围、访问前置条件、精确命令、验证步骤、回滚路径、升级路径、风险标签和 agent 护栏。
+这在事故压力下不可执行。它缺少负责人、触发条件、影响范围、访问前置条件、精确命令、验证步骤、回滚路径、时间边界、升级路径、风险标签和 agent 护栏。
 
 ## 报告片段
 
@@ -61,7 +61,7 @@ Try fixing it. Restart things if needed.
 
 - Files: 1
 - Errors: 6
-- Warnings: 4
+- Warnings: 5
 
 ### trigger.condition: Missing trigger condition
 
@@ -79,6 +79,7 @@ Try fixing it. Restart things if needed.
 - `step.command`
 - `step.verify`
 - `rollback.path`
+- `time.bound`
 - `escalation.contact`
 - `risk.destructive`
 - `agent.guardrail`
