@@ -7,6 +7,7 @@ describe("CI workflow", () => {
 
     expect(workflow).toContain("actions/checkout@v7.0.0");
     expect(workflow).toContain("actions/setup-node@v6.4.0");
+    expect(workflow).toContain("npm run package:check");
     expect(workflow).not.toMatch(/actions\/(?:checkout|setup-node)@v[45]\b/);
   });
 });

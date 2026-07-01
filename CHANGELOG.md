@@ -5,6 +5,7 @@
 - Add `scan --max-warnings <count>` for CI warning budgets.
 - Keep the default exit behavior unchanged unless a warning budget is configured.
 - Refresh GitHub Actions pins to current runtime-compatible releases.
+- Add `package:check` to keep local release checks aligned with CI.
 
 ## 0.1.0 - 2026-06-12
 

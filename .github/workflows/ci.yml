@@ -16,6 +16,4 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run check
-      - run: node dist/cli.js demo --out reports/demo
-      - run: npm pack --dry-run --ignore-scripts
+      - run: npm run package:check

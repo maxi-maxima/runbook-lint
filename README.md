@@ -99,9 +99,7 @@ This is not executable under pressure. It lacks ownership, trigger condition, sc
 
 ```bash
 npm install
-npm run check
-node dist/cli.js demo --out reports/demo
-npm pack --dry-run --ignore-scripts
+npm run package:check
 ```
 
 ## License
