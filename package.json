@@ -1,6 +1,6 @@
 {
   "name": "runbook-lint",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Audit incident runbooks for human and AI-agent executability.",
   "type": "module",
   "bin": {

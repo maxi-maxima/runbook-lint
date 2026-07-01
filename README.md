@@ -38,9 +38,12 @@ npm run build
 ```bash
 runbook-lint scan docs/runbooks
 runbook-lint scan docs/runbooks --format json --out reports/runbook-lint.json
+runbook-lint scan docs/runbooks --max-warnings 0
 runbook-lint demo --out reports/demo
 runbook-lint explain trigger.condition docs/runbooks
 ```
+
+Use `--max-warnings <count>` when you want CI to fail once warning-level findings exceed your current budget. This lets teams adopt the tool gradually: start with a permissive warning budget, then ratchet it down as runbooks improve.
 
 ## Incomplete Runbook Example
 
@@ -88,8 +91,8 @@ This is not executable under pressure. It lacks ownership, trigger condition, sc
 
 | Code | Meaning |
 | --- | --- |
-| `0` | No error-severity findings. |
-| `1` | One or more error-severity findings. |
+| `0` | No error-severity findings and warning count is within budget. |
+| `1` | One or more error-severity findings, or warnings exceeded `--max-warnings`. |
 | `2` | Usage error, unreadable path, or unsupported output format. |
 
 ## Development

@@ -9,7 +9,7 @@ async function main(argv: string[]): Promise<number> {
     return 0;
   }
   if (parsed.flags.has("version")) {
-    process.stdout.write("0.1.0\n");
+    process.stdout.write("0.2.0\n");
     return 0;
   }
   try {
@@ -18,7 +18,8 @@ async function main(argv: string[]): Promise<number> {
         root: parsed.positionals[0] ?? ".",
         format: parseFormat(stringFlag(parsed.flags, "format")),
         out: stringFlag(parsed.flags, "out"),
-        strict: Boolean(parsed.flags.get("strict"))
+        strict: Boolean(parsed.flags.get("strict")),
+        maxWarnings: numberFlag(parsed.flags, "max-warnings")
       });
       process.stdout.write(result.stdout);
       process.stderr.write(result.stderr ? `${result.stderr}\n` : "");
@@ -76,11 +77,23 @@ function stringFlag(flags: Map<string, string | boolean>, key: string): string |
   return typeof value === "string" ? value : undefined;
 }
 
+function numberFlag(flags: Map<string, string | boolean>, key: string): number | undefined {
+  const value = stringFlag(flags, key);
+  if (value === undefined) {
+    return undefined;
+  }
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < 0) {
+    throw new Error(`Invalid --${key}: ${value}`);
+  }
+  return parsed;
+}
+
 function helpText(): string {
   return `runbook-lint
 
 Usage:
-  runbook-lint scan [path] [--format markdown|json|sarif] [--out file] [--strict]
+  runbook-lint scan [path] [--format markdown|json|sarif] [--out file] [--strict] [--max-warnings count]
   runbook-lint demo --out reports/demo
   runbook-lint explain <rule-id> [path]
 `;

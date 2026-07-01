@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 - 2026-07-01
+
+- Add `scan --max-warnings <count>` for CI warning budgets.
+- Keep the default exit behavior unchanged unless a warning budget is configured.
+
 ## 0.1.0 - 2026-06-12
 
 - Initial public release.

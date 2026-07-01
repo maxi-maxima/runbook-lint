@@ -39,6 +39,48 @@ describe("runScan", () => {
     expect(result.exitCode).toBe(2);
     expect(result.stderr).toContain("Unable to scan");
   });
+
+  test("fails when warnings exceed the configured budget", async () => {
+    const root = await workspace();
+    await writeFile(
+      join(root, "api.md"),
+      `---
+owner: platform
+service: api
+---
+# API outage
+
+Trigger: p95 latency alert fires for api.
+Required access: kubectl production context and Grafana.
+AI agent guardrail: do not restart production automatically.
+
+## Steps
+
+- Check scope for api with \`kubectl get pods -n prod\`.
+- Restart canary only after approval: \`kubectl rollout restart deployment/api -n prod\`.
+- Verify recovery with \`curl https://api.example.com/health\`.
+
+## Rollback
+
+- Roll back with \`kubectl rollout undo deployment/api -n prod\`.
+
+## Escalation
+
+- Escalate to #platform-oncall if error rate stays high.
+
+## Risk
+
+- Destructive actions require human confirmation.
+`
+    );
+
+    const defaultResult = await runScan({ root, format: "json", strict: false });
+    const gatedResult = await runScan({ root, format: "json", strict: false, maxWarnings: 0 });
+
+    expect(defaultResult.exitCode).toBe(0);
+    expect(gatedResult.exitCode).toBe(1);
+    expect(gatedResult.report?.summary).toMatchObject({ error: 0, warning: 1 });
+  });
 });
 
 describe("runExplain", () => {

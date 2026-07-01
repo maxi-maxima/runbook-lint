@@ -38,9 +38,12 @@ npm run build
 ```bash
 runbook-lint scan docs/runbooks
 runbook-lint scan docs/runbooks --format json --out reports/runbook-lint.json
+runbook-lint scan docs/runbooks --max-warnings 0
 runbook-lint demo --out reports/demo
 runbook-lint explain trigger.condition docs/runbooks
 ```
+
+如果想让 CI 在 warning 超过预算时失败，可以使用 `--max-warnings <count>`。团队可以先设置宽松预算，等 runbook 逐步补齐后再收紧。
 
 ## 不完整 runbook 示例
 
@@ -88,8 +91,8 @@ Try fixing it. Restart things if needed.
 
 | 代码 | 含义 |
 | --- | --- |
-| `0` | 没有 error 级别发现。 |
-| `1` | 存在一个或多个 error 级别发现。 |
+| `0` | 没有 error 级别发现，并且 warning 数量没有超过预算。 |
+| `1` | 存在一个或多个 error 级别发现，或 warning 超过 `--max-warnings`。 |
 | `2` | 用法错误、路径不可读或输出格式不支持。 |
 
 ## 开发

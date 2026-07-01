@@ -14,7 +14,13 @@ export interface CommandResult {
   report?: ScanReport;
 }
 
-export async function runScan(options: { root: string; format: ReportFormat; out?: string; strict: boolean }): Promise<CommandResult> {
+export async function runScan(options: {
+  root: string;
+  format: ReportFormat;
+  out?: string;
+  strict: boolean;
+  maxWarnings?: number;
+}): Promise<CommandResult> {
   const root = resolve(options.root);
   let files: string[];
   try {
@@ -41,7 +47,7 @@ export async function runScan(options: { root: string; format: ReportFormat; out
     await writeFile(options.out, output, "utf8");
   }
   return {
-    exitCode: report.summary.error > 0 ? 1 : 0,
+    exitCode: report.summary.error > 0 || exceedsWarningBudget(report, options.maxWarnings) ? 1 : 0,
     stdout: options.out ? `Wrote ${options.out}\n` : output,
     stderr: "",
     report
@@ -75,4 +81,8 @@ export function parseFormat(value: string | undefined): ReportFormat {
 
 function messageOf(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function exceedsWarningBudget(report: ScanReport, maxWarnings: number | undefined): boolean {
+  return maxWarnings !== undefined && report.summary.warning > maxWarnings;
 }
