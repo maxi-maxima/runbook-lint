@@ -47,7 +47,8 @@ describe("builtInRules", () => {
       "time.bound",
       "escalation.contact",
       "risk.destructive",
-      "agent.guardrail"
+      "agent.guardrail",
+      "command.placeholder"
     ]);
   });
 

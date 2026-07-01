@@ -11,7 +11,14 @@ export const builtInRules: Rule[] = [
   rule("time.bound", "Missing time bound", "warning", "State expected wait times, retry limits, or escalation deadlines for remediation steps.", hasTimeBound),
   rule("escalation.contact", "Missing escalation path", "warning", "Name when and where to escalate, including team, channel, or on-call path.", hasEscalation),
   rule("risk.destructive", "Missing destructive action warning", "warning", "Mark destructive or irreversible operations and require human confirmation.", hasRisk),
-  rule("agent.guardrail", "Missing AI agent guardrail", "warning", "State what an AI agent must not do automatically.", hasAgentGuardrail)
+  rule("agent.guardrail", "Missing AI agent guardrail", "warning", "State what an AI agent must not do automatically.", hasAgentGuardrail),
+  rule(
+    "command.placeholder",
+    "Inline command contains unresolved placeholder",
+    "warning",
+    "Replace placeholder-only inline commands such as <namespace> or {service} with concrete values or document exactly how responders resolve them.",
+    hasNoPlaceholderCommand
+  )
 ];
 
 function rule(
@@ -103,6 +110,10 @@ function hasRisk(document: RunbookDocument): boolean {
 
 function hasAgentGuardrail(document: RunbookDocument): boolean {
   return includesAny(document, ["ai agent", "agent guardrail", "must not", "do not"]);
+}
+
+function hasNoPlaceholderCommand(document: RunbookDocument): boolean {
+  return !document.inlineCommands.some((command) => /(?:<[^>]+>|\{[^}]+\}|\$\{[^}]+\})/.test(command));
 }
 
 function includesAny(document: RunbookDocument, terms: string[]): boolean {
